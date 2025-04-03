@@ -20,7 +20,7 @@ public class Technology {
     private Long technologyId;
     @NotNull
     private String name;
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private List<Cpe> cpeList;
 
     public void addCpe(Cpe cpe) {

@@ -16,30 +16,11 @@ public class HomePageController {
     UserService userService;
 
     @GetMapping("/")
-    public String home() {
-        return "home";
-    }
-
-    @GetMapping("/admin")
-    public String admin() {
-        return "admin";
-    }
-
-    @GetMapping("/user")
     public String user(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         User user = userService.findUserByUsername(username);
         model.addAttribute("user", user);
         return "user";
-    }
-
-    @GetMapping("/login")
-    public String login() {
-        return "login";
-    }
-    @GetMapping("/logout")
-    public String logout() {
-        return "login";
     }
 }
