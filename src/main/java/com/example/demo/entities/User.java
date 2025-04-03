@@ -5,11 +5,9 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 @Data
@@ -36,11 +34,13 @@ public class User implements Serializable {
     private String roles;
     @NotNull
     private String password;
-    @OneToMany
+    @OneToMany()
     private List<Technology> technologyList = new ArrayList<>();
+    @ManyToMany()
+    private List<CVE> followCveList = new ArrayList<>();
 
 
-    public User(String firstName, String lastName, String username, String email, String phoneNumber, String roles, String password, List<Technology> technologyList) {
+    public User(String firstName, String lastName, String username, String email, String phoneNumber, String roles, String password, List<Technology> technologyList, List<CVE> followCveList) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
@@ -49,6 +49,7 @@ public class User implements Serializable {
         this.roles = roles;
         this.password = password;
         this.technologyList = technologyList;
+        this.followCveList = followCveList;
     }
 
     @Override

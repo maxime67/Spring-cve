@@ -5,7 +5,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import com.example.demo.entities.Cve;
 
 import java.util.List;
 
@@ -21,10 +20,12 @@ public class Cpe {
     private Long cpeId;
     @NotNull
     private String cpeName;
-    @OneToMany
-    private List<Cve> cveList;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<CVE> cveList;
 
-    public void addCve(Cve cve) {
-        cveList.add(cve);
+    public void addCve(CVE cve) {
+        if (!cveList.contains(cve)) {
+            cveList.add(cve);
+        }
     }
 }

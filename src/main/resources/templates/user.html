@@ -12,7 +12,7 @@
 <div th:each="technology : ${user.getTechnologyList()}">
     <div th:each="cpe : ${technology.getCpeList()}">
         <div th:each="cve : ${cpe.getCveList()}">
-        <a th:text="${cve}"></a>
+        <a th:text="${cve.getId()}"></a>
         </div>
     </div>
 </div>
