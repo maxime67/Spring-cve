@@ -1,6 +1,5 @@
 package com.example.demo.controllers;
 
-import com.example.demo.DTO.CveDTO;
 import com.example.demo.entities.CVE;
 import com.example.demo.services.CveService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,28 +22,28 @@ public class CveController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<List<CveDTO>> getAllCves(
+    public ResponseEntity<List<CVE>> getAllCves(
             @RequestParam(required = false) String severity,
             @RequestParam(required = false) Double minImpactScore,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
 
         logger.info("Requête reçue pour les CVEs filtrées");
-        List<CveDTO> cves = cveService.findAllWithFilters(severity, minImpactScore, page, size);
+        List<CVE> cves = cveService.findAllWithFilters(severity, minImpactScore, page, size);
         return ResponseEntity.ok(cves);
     }
     @GetMapping("/all")
-    public ResponseEntity<List<CveDTO>> getAllCves() {
+    public ResponseEntity<List<CVE>> getAllCves() {
 
         logger.info("Requête reçue pour les toute les CVEs");
-        List<CveDTO> cves = cveService.findAll();
+        List<CVE> cves = cveService.findAll();
         return ResponseEntity.ok(cves);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CveDTO> getCveById(@PathVariable String id) {
+    public ResponseEntity<CVE> getCveById(@PathVariable String id) {
         logger.info("Requête reçue pour la CVE avec ID: " + id);
-        CveDTO cve = cveService.findById(id);
+        CVE cve = cveService.findById(id);
         if (cve == null) {
             logger.warning("Aucune CVE trouvée avec l'ID: " + id);
             return ResponseEntity.notFound().build();
@@ -53,11 +52,11 @@ public class CveController {
     }
 
     @GetMapping("/recent")
-    public ResponseEntity<List<CveDTO>> getRecentCves(
+    public ResponseEntity<List<CVE>> getRecentCves(
             @RequestParam(defaultValue = "5") int limit) {
 
         logger.info("Requête reçue pour les " + limit + " CVEs les plus récentes");
-        List<CveDTO> cves = cveService.findMostRecent(limit);
+        List<CVE> cves = cveService.findMostRecent(limit);
         return ResponseEntity.ok(cves);
     }
 }

@@ -1,10 +1,7 @@
 package com.example.demo.services;
 
-import com.example.demo.DTO.CveDTO;
-import com.example.demo.DTO.CveMapper;
 import com.example.demo.entities.CVE;
 import com.example.demo.repositories.CveDAO;
-import jakarta.persistence.Cacheable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,22 +15,19 @@ public class CveService {
     private static final Logger logger = Logger.getLogger(CveService.class.getName());
 
     private final CveDAO cveDAO;
-    private final CveMapper cveMapper;
 
     @Autowired
-    public CveService(CveDAO cveDAO, CveMapper cveMapper) {
+    public CveService(CveDAO cveDAO) {
         this.cveDAO = cveDAO;
-        this.cveMapper = cveMapper;
     }
 
     /**
      * Récupère une CVE par son ID, avec mise en cache
      */
     @Transactional(readOnly = true)
-    public CveDTO findById(String id) {
+    public CVE findById(String id) {
         logger.info("Recherche de la CVE avec l'ID: " + id);
         return cveDAO.findById(id)
-                .map(cveMapper::toDto)
                 .orElse(null);
     }
 
@@ -41,7 +35,7 @@ public class CveService {
      * Récupère toutes les CVEs avec filtrage et pagination
      */
     @Transactional(readOnly = true)
-    public List<CveDTO> findAllWithFilters(String severity, Double minImpactScore, int page, int size) {
+    public List<CVE> findAllWithFilters(String severity, Double minImpactScore, int page, int size) {
         logger.info("Recherche de CVEs avec filtres - severity: " + severity +
                 ", minImpactScore: " + minImpactScore +
                 ", page: " + page +
@@ -82,24 +76,24 @@ public class CveService {
         List<CVE> pagedCves = filteredCves.subList(fromIndex, toIndex);
 
         logger.info("Retour de " + pagedCves.size() + " CVEs filtrées");
-        return cveMapper.toDtoList(pagedCves);
+        return pagedCves;
     }
 
     /**
      * Version simplifiée pour récupérer toutes les CVEs
      */
     @Transactional(readOnly = true)
-    public List<CveDTO> findAll() {
+    public List<CVE> findAll() {
         List<CVE> cves = cveDAO.findAll();
         logger.info("Récupération de " + cves.size() + " CVEs");
-        return cveMapper.toDtoList(cves);
+        return cves;
     }
 
     /**
      * Récupère les CVEs les plus récentes
      */
     @Transactional(readOnly = true)
-    public List<CveDTO> findMostRecent(int limit) {
+    public List<CVE> findMostRecent(int limit) {
         List<CVE> cves = cveDAO.findAll();
 
         // Trie par date de publication (descendant)
@@ -109,6 +103,6 @@ public class CveService {
                 .collect(Collectors.toList());
 
         logger.info("Récupération des " + recentCves.size() + " CVEs les plus récentes");
-        return cveMapper.toDtoList(recentCves);
+        return recentCves;
     }
 }

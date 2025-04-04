@@ -47,17 +47,6 @@ public class User implements Serializable, UserDetails {
     )
     private List<CVE> followCveList = new ArrayList<>();
 
-    public User(String firstName, String lastName, String username, String email, String phoneNumber, String roles, String password, List<Technology> technologyList, List<CVE> followCveList) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.username = username;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-        this.roles = roles;
-        this.password = password;
-        this.technologyList = technologyList;
-        this.followCveList = followCveList;
-    }
 
     @Override
     public String toString() {

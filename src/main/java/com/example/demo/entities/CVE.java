@@ -46,9 +46,6 @@ public class CVE implements Serializable {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "cve")
     private List<Description> descriptions = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "followCveList")
-    private List<User> users = new ArrayList<>();
-
     // Méthode helper pour maintenir la relation bidirectionnelle
     public void addDescription(Description description) {
         descriptions.add(description);

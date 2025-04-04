@@ -41,23 +41,22 @@ public class Demo1Application {
 //            cve.setUpdate_at((Date.from(instantModified)));
 //            cveDAO.save(cve);
 
-             /*
-            CPE
-             */
-            Cpe cpe = new Cpe();
-            cpe.setCpeName("cpe:2.3:a:wordpress:wordpress:6.3:*:*:*:*:*:*:");
-            cpe.setCveList(new ArrayList<>());
-            cpeDAO.save(cpe);
-
 
              /*
             technology
              */
-            Technology technology = new Technology();
-            technology.setName("WordPress");
-            technology.setCpeList(new ArrayList<>());
-            technology.addCpe(cpe);
-            technologyDAO.save(technology);
+            Technology wordpress = new Technology();
+            wordpress.setName("proxmox");
+            wordpress.setCpeList(new ArrayList<>());
+            technologyDAO.save(wordpress);
+
+            /*
+            technology
+             */
+            Technology docker = new Technology();
+            docker.setName("Symfony");
+            docker.setCpeList(new ArrayList<>());
+            technologyDAO.save(docker);
 
             /*
             User
@@ -70,9 +69,9 @@ public class Demo1Application {
             user.setPassword("$2y$10$dnLsDJKFnl9qkiiCGesdDuNA4F8YMa2uEe92p0.riRvcDs.rM29.K");
             user.setPhoneNumber("06");
             user.setRoles("USER");
-            user.addTechnology(technology);
+            user.addTechnology(docker);
+//            user.addTechnology(wordpress);
             userRepository.save(user);
-            Optional<User> saved = userRepository.findById(user.getUserId());
 
             nvdRequestService.fetchVulnerabilities();
         };

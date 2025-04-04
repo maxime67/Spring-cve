@@ -1,6 +1,8 @@
 package com.example.demo.controllers;
 
 import com.example.demo.entities.CVE;
+import com.example.demo.entities.Cpe;
+import com.example.demo.entities.Technology;
 import com.example.demo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
+
     @Autowired
     private UserService userService;
 
@@ -24,5 +27,12 @@ public class UserController {
     public ResponseEntity<String> unfollowElement(@PathVariable String cveId) {
         userService.unfollowCve(cveId);
         return ResponseEntity.ok("Unfollowed");
+    }
+
+    @GetMapping("/technolgies")
+    public ResponseEntity<List<Technology>> getAllCpe() {
+        List<Technology> list = userService.getFollowedTechnologies();
+        return ResponseEntity.ok(list);
+
     }
 }

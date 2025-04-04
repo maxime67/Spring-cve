@@ -24,7 +24,6 @@ public class AuthController {
     private final AuthenticationManager authManager;
     private final UserService userService;
     private final JwtService jwtService;
-    private final UserDAO userRepo;
     private final PasswordEncoder encoder;
 
     public AuthController(AuthenticationManager authManager, UserService userService,
@@ -32,7 +31,6 @@ public class AuthController {
         this.authManager = authManager;
         this.userService = userService;
         this.jwtService = jwtService;
-        this.userRepo = userRepo;
         this.encoder = encoder;
     }
 

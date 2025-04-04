@@ -1,6 +1,8 @@
 package com.example.demo.services;
 
 import com.example.demo.entities.CVE;
+import com.example.demo.entities.Cpe;
+import com.example.demo.entities.Technology;
 import com.example.demo.entities.User;
 import com.example.demo.repositories.CveDAO;
 import com.example.demo.repositories.UserDAO;
@@ -58,5 +60,13 @@ public class UserService {
 
         user.getFollowCveList().remove(cve);
         userDAO.save(user);
+    }
+
+    public List<Technology> getFollowedTechnologies()
+    {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        User user = this.findUserByUsername(username);
+        return user.getTechnologyList();
     }
 }
