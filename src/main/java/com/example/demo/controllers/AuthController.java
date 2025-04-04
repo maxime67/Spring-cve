@@ -1,8 +1,8 @@
 package com.example.demo.controllers;
 
-import com.example.demo.DTO.AuthRequest;
-import com.example.demo.DTO.AuthResponse;
-import com.example.demo.DTO.RegisterRequest;
+import com.example.demo.DTO.auth.AuthRequest;
+import com.example.demo.DTO.auth.AuthResponse;
+import com.example.demo.DTO.auth.RegisterRequest;
 import com.example.demo.entities.User;
 import com.example.demo.repositories.UserDAO;
 import com.example.demo.security.JwtService;
@@ -53,14 +53,14 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody RegisterRequest request) {
-        if (userRepo.findByUsername(request.getUsername()).isPresent()) {
+        if (userService.findUserByUsername(request.getUsername()) != null) {
             return ResponseEntity.badRequest().body("User already exists");
         }
 
         User user = new User();
         user.setUsername(request.getUsername());
         user.setPassword(encoder.encode(request.getPassword()));
-        userRepo.save(user);
+        userService.saveUser(user);
         return ResponseEntity.ok("User registered");
     }
 }

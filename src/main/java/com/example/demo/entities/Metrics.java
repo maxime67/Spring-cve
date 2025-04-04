@@ -19,24 +19,7 @@ public class Metrics {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY) // Changé à LAZY
     @JoinColumn(name = "metrics_id")
     private List<CvssMetricV2> cvssMetricV2 = new ArrayList<>();
-
-    // Getters et Setters
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public List<CvssMetricV2> getCvssMetricV2() {
-        return cvssMetricV2;
-    }
-
-    public void setCvssMetricV2(List<CvssMetricV2> cvssMetricV2) {
-        this.cvssMetricV2 = cvssMetricV2;
-    }
 }

@@ -1,4 +1,4 @@
-package com.example.demo.DTO;
+package com.example.demo.DTO.auth;
 
 import lombok.*;
 
@@ -7,7 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @Getter
 @Setter
-public class RegisterRequest {
+public class AuthRequest {
     private String username;
     private String password;
 }

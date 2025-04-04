@@ -39,16 +39,26 @@ public class CVE implements Serializable {
     @Column(name = "tag")
     private List<String> cveTags = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "cve")
-    private List<Description> descriptions = new ArrayList<>();
-
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "metrics_id")
     private Metrics metrics;
 
-    @ManyToMany(mappedBy = "followCveList")
-    private Collection<User> users;
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "cve")
+    private List<Description> descriptions = new ArrayList<>();
 
+    @ManyToMany(mappedBy = "followCveList")
+    private List<User> users = new ArrayList<>();
+
+    // Méthode helper pour maintenir la relation bidirectionnelle
+    public void addDescription(Description description) {
+        descriptions.add(description);
+        description.setCve(this);
+    }
+
+    public void removeDescription(Description description) {
+        descriptions.remove(description);
+        description.setCve(null);
+    }
     @Override
     public String toString() {
         return "CVE{" +

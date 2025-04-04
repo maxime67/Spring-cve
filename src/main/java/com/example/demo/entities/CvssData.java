@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "cvss_data")
 public class CvssData {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -43,84 +42,5 @@ public class CvssData {
     @Column(name = "availability_impact")
     private String availabilityImpact;
 
-    // Getters et Setters
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getVersion() {
-        return version;
-    }
-
-    public void setVersion(String version) {
-        this.version = version;
-    }
-
-    public String getVectorString() {
-        return vectorString;
-    }
-
-    public void setVectorString(String vectorString) {
-        this.vectorString = vectorString;
-    }
-
-    public Double getBaseScore() {
-        return baseScore;
-    }
-
-    public void setBaseScore(Double baseScore) {
-        this.baseScore = baseScore;
-    }
-
-    public String getAccessVector() {
-        return accessVector;
-    }
-
-    public void setAccessVector(String accessVector) {
-        this.accessVector = accessVector;
-    }
-
-    public String getAccessComplexity() {
-        return accessComplexity;
-    }
-
-    public void setAccessComplexity(String accessComplexity) {
-        this.accessComplexity = accessComplexity;
-    }
-
-    public String getAuthentication() {
-        return authentication;
-    }
-
-    public void setAuthentication(String authentication) {
-        this.authentication = authentication;
-    }
-
-    public String getConfidentialityImpact() {
-        return confidentialityImpact;
-    }
-
-    public void setConfidentialityImpact(String confidentialityImpact) {
-        this.confidentialityImpact = confidentialityImpact;
-    }
-
-    public String getIntegrityImpact() {
-        return integrityImpact;
-    }
-
-    public void setIntegrityImpact(String integrityImpact) {
-        this.integrityImpact = integrityImpact;
-    }
-
-    public String getAvailabilityImpact() {
-        return availabilityImpact;
-    }
-
-    public void setAvailabilityImpact(String availabilityImpact) {
-        this.availabilityImpact = availabilityImpact;
-    }
+    // Suppression des getters/setters redondants avec @Data
 }

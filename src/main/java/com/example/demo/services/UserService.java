@@ -35,6 +35,9 @@ public class UserService {
         User user = this.findUserByUsername(username);
         return user.getFollowCveList();
     };
+    public void saveUser(User user){
+        userDAO.save(user);
+    };
     public void followCve(String cveID) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();

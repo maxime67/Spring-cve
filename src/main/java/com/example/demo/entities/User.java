@@ -21,7 +21,6 @@ import java.util.List;
 public class User implements Serializable, UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @NotNull
     private Long UserId;
     @NotNull
     private String firstName;
@@ -37,11 +36,16 @@ public class User implements Serializable, UserDetails {
     private String roles;
     @NotNull
     private String password;
-    @OneToMany()
+    @OneToMany(fetch = FetchType.LAZY) // Changé à LAZY
     private List<Technology> technologyList = new ArrayList<>();
-    @ManyToMany()
-    private List<CVE> followCveList = new ArrayList<>();
 
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+            name = "user_cve_follows",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "cve_id")
+    )
+    private List<CVE> followCveList = new ArrayList<>();
 
     public User(String firstName, String lastName, String username, String email, String phoneNumber, String roles, String password, List<Technology> technologyList, List<CVE> followCveList) {
         this.firstName = firstName;
