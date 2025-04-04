@@ -24,30 +24,10 @@ public class Description {
     @Column(name = "desc_value", length = 2048)
     private String value;
 
-    // Getters et Setters
-    public Long getId() {
-        return id;
-    }
+    @ManyToOne
+    @JoinColumn(name = "cve_id")
+    private CVE cve;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getLang() {
-        return lang;
-    }
-
-    public void setLang(String lang) {
-        this.lang = lang;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
-    }
     @Override
     public String toString() {
         return "Description{" +

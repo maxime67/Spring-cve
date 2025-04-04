@@ -14,7 +14,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     UserDAO userDAO;
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        // Remplacez ceci par votre logique pour récupérer l'utilisateur depuis la base de données
         User user = findUserByUsername(username);
         if (user == null) {
             throw new UsernameNotFoundException("User not found");
@@ -28,7 +27,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     private User findUserByUsername(String username) {
-        System.out.println("username: " + username);
         return userDAO.findByFirstName("John");
     }
 }

@@ -21,8 +21,6 @@ public class NvdRequestService {
     private final RestTemplate restTemplate;
     @Autowired
     private CveDAO cveDAO;
-    @Autowired
-    private WeaknessDAO weaknessDAO;
 
     @Autowired
     public NvdRequestService(RestTemplate restTemplate, RestTemplate restTemplate1) {
@@ -48,7 +46,6 @@ public class NvdRequestService {
 //                                            // Check if CVE is already merged to the target CpeName
                                             if (cpe.getCveList().stream().noneMatch(existingCve ->
                                                     existingCve.getId().equals(cve.getCve().getId()))) {
-                                                System.out.println("The CVE : " + cve.getCve().getId() + " was add to CPE " + cpe.getCpeName());
                                                 cpe.addCve(cve.getCve());
                                             }
                                         }
@@ -61,6 +58,7 @@ public class NvdRequestService {
                         System.err.println("Failed to fetch data from NVD for CPE: " + cpe.getCpeName());
                     }
                     cpeDAO.save(cpe);
+                    cpe.getCveList().forEach(System.out::println);
                 });
             });
         } catch (Exception e) {
@@ -68,9 +66,6 @@ public class NvdRequestService {
             System.err.println("An error occurred while fetching vulnerabilities: " + e.getMessage());
             e.printStackTrace();
         }
-        cpeDAO.findAll().forEach(cpe -> {
-            cpe.getCveList().forEach(System.out::println);
-        });
     }
 
 

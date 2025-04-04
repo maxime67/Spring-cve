@@ -13,5 +13,5 @@ public interface UserDAO extends Repository<User, Long> {
     Optional<User> findById(long id);
 
     User findByFirstName(String firstName);
-    User findByUsername(String userName);
+    Optional<User> findByUsername(String userName);
 }

@@ -18,7 +18,11 @@ public class UserService {
     @Autowired
     CveDAO cveDAO;
     public User findUserByUsername(String username) {
-        return userDAO.findByUsername(username);
+        if(userDAO.findByUsername(username).isPresent()) {
+            return userDAO.findByUsername(username).get();
+        } else {
+            return null;
+        }
     };
     public User getAuthUser(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
