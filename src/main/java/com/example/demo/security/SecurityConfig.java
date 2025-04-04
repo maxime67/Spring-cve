@@ -3,6 +3,7 @@ package com.example.demo.security;
 import com.example.demo.services.UserDetailsServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -25,7 +26,9 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/**").hasRole("USER")
+                        .requestMatchers(HttpMethod.GET, "/").hasRole("USER")
+                        .requestMatchers(HttpMethod.GET, "/**").permitAll() // Allow GET requests to public endpoints
+                        .requestMatchers(HttpMethod.POST, "/**").permitAll() // Allow POST requests to public endpoints
                 )
                 .formLogin((form) -> form
                         .loginPage("/login")
@@ -38,6 +41,8 @@ public class SecurityConfig {
                         .invalidateHttpSession(true)
                         .deleteCookies("JSESSIONID")
                         .permitAll()
+                ).csrf((csrf) -> csrf
+                        .ignoringRequestMatchers("/api/users/**") // Disable CSRF for user-related endpoints if needed
                 )
                 .userDetailsService(userDetailsService);
         return http.build();

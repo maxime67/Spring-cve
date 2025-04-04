@@ -2,19 +2,63 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Getting Started: Serving Web Content</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <!-- this is where we refer the css file from src/main/resources/static/main.css -->
-    <link th:href="@{/main.css}" rel="stylesheet" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link th:href="@{/main.css}" rel="stylesheet"/>
 </head>
 <body>
-<h1 class="mt-2 text-xl" >Bienvenue <a th:text="${user.getUsername()}"></a></h1>
+<h1 class="mt-2 text-xl">Bienvenue <span th:text="${user.username}"></span></h1>
 <a href="/">Home</a>
-<div th:each="technology : ${user.getTechnologyList()}">
-    <div th:each="cpe : ${technology.getCpeList()}">
-        <div th:each="cve : ${cpe.getCveList()}">
-        <a th:text="${cve.getId()}"></a>
-        </div>
-    </div>
-</div>
+<ul>
+    <li th:each="cve : ${cves}">
+        <span th:text="${cve.id}"></span>
+
+        <!-- Follow button -->
+        <button
+                th:data-element-id="${cve.id}"
+                th:attr="onclick=|toggleFollow('${cve.id}', true)|"
+                th:style="${#lists.contains(followedCves, cve.id)} ? 'display:none;' : 'display:inline;'">
+            <span>Follow</span>
+        </button>
+
+        <!-- Unfollow button -->
+        <button
+                th:data-element-id="${cve.id}"
+                th:attr="onclick=|toggleFollow('${cve.id}', false)|"
+                th:style="${!#lists.contains(followedCves, cve.id)} ? 'display:none;' : 'display:inline;'">
+            <span>Unfollow</span>
+        </button>
+    </li>
+</ul>
+
+<script>
+    async function toggleFollow(elementId, follow) {
+        const url = `/api/users/${follow ? 'follow' : 'unfollow'}/${elementId}`;
+
+        try {
+            const response = await fetch(url, { method: 'POST' });
+            if (response.ok) {
+                updateButtonState(elementId, follow);
+            } else {
+                console.error('Failed to update follow status');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+
+    function updateButtonState(elementId, isFollowing) {
+        const elementItem = document.querySelector(`[data-element-id="${elementId}"]`);
+        if (elementItem) {
+            const followButton = elementItem.querySelector(`button[onclick*="true"]`);
+            const unfollowButton = elementItem.querySelector(`button[onclick*="false"]`);
+
+            if (followButton && unfollowButton) {
+                followButton.style.display = isFollowing ? "none" : "inline";
+                unfollowButton.style.display = isFollowing ? "inline" : "none";
+            }
+        }
+    }
+</script>
+
 </body>
 </html>
